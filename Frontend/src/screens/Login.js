@@ -7,7 +7,7 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch('wefoodbackend-git-main-tushargandhi77s-projects.vercel.app/api/loginuser', {
+        const response = await fetch('wefoodbackend.vercel.app/api/loginuser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
