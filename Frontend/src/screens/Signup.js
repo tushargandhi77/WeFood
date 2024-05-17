@@ -7,7 +7,7 @@ export default function Signup() {
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
-        const response = await fetch('wefoodbackend-git-main-tushargandhi77s-projects.vercel.app/api/createuser',{
+        const response = await fetch('wefoodbackend.vercel.app/api/createuser',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
