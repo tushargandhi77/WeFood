@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 
 export default function Signup() {
     const [credentials, setcredentials] = useState({name:"",email:"",password:"",geolocation:""})
 
-
+    const navigate = useNavigate();
     const handleSubmit = async(e) =>{
         e.preventDefault();
         const response = await fetch('https://wefoodbackend.vercel.app/api/createuser',{
@@ -23,6 +23,10 @@ export default function Signup() {
         console.log(json)
         if(!json.success){
             alert("Enter Valid Credientials")
+        }
+        else{
+            alert("Register Sucdessfull");
+            navigate('/login')
         }
     }
     const onChange = (event)=>{
