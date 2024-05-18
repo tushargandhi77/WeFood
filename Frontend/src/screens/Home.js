@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
+import {  useNavigate } from 'react-router-dom'
 
 
 export default function Home() {
@@ -9,7 +10,13 @@ export default function Home() {
   const [foodCat, setfoodCat] = useState([])
   const [foodItem, setfoodItem] = useState([])
 
+  const navigate = useNavigate();
 
+  const password = localStorage.getItem("authToken");
+  if(!password){
+    navigate('/login');
+  }
+  
   const loadData = async () => {
     let response = await fetch("https://wefoodbackend.vercel.app/api/foodData");
 
