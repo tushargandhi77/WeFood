@@ -11,15 +11,16 @@ app.get('/',(req,res)=>{
 })
 
 const corsOptions = {
-  origin: 'we-food-swart.vercel.app', // Your frontend's URL
+  origin: 'https://we-food-swart.vercel.app', // Your frontend's URL
   optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
 
+app.options('*', cors(corsOptions));
 
 app.use((req,res,next)=>{
-    res.setHeader("Access-Control-Allow-Origin","we-food-swart.vercel.app")
+    res.setHeader("Access-Control-Allow-Origin","https://we-food-swart.vercel.app")
     res.header(
         "Access-Control-Allow-Headers",
         "Origin,X-Requested-with,Content-Type,Accept"
