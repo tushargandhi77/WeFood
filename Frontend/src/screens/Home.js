@@ -12,7 +12,7 @@ export default function Home() {
 
   const loadData = async () => {
     let response = await fetch("https://wefoodbackend.vercel.app/api/foodData", {
-      method: "POST",
+      method: "GET",
       header: {
         'Content-Type': 'application-json'
       }
