@@ -1,17 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 
-router.get('/foodData', (req, res) => {
+router.get('/foodData', async (req, res) => {
     try {
-        if (global.food_items && global.foodCategory) {
-            res.status(200).send({
-                food_items: global.food_items,
-                foodCategory: global.foodCategory
-            });
-        } else {
-            console.warn('Data not available at the moment');
-            res.status(503).send("Service Unavailable: Data not loaded");
-        }
+        const db = mongoose.connection.db;
+        
+        const foodItemsCollection = db.collection("food_items");
+        const foodCategoryCollection = db.collection("foodCategory");
+
+        // Fetch data from the database
+        const foodItemsData = await foodItemsCollection.find({}).toArray();
+        const foodCategoryData = await foodCategoryCollection.find({}).toArray();
+
+        res.status(200).send({
+            food_items: foodItemsData,
+            foodCategory: foodCategoryData
+        });
     } catch (error) {
         console.error('Server Error:', error.message);
         res.status(500).send("Internal Server Error");
