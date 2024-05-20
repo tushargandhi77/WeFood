@@ -1,32 +1,36 @@
-const mongoose = require('mongoose')
-const mongoURI = 'mongodb+srv://gofood:gofood123@cluster0.v1mhr0d.mongodb.net/Gofoodmern?retryWrites=true&w=majority'
+const mongoose = require('mongoose');
+const mongoURI = 'mongodb+srv://gofood:gofood123@cluster0.v1mhr0d.mongodb.net/Gofoodmern?retryWrites=true&w=majority';
+
+// Function to load data from the database
+const loadData = async () => {
+    try {
+        const db = mongoose.connection.db;
+        
+        const foodItemsCollection = db.collection("food_items");
+        const foodItemsData = await foodItemsCollection.find({}).toArray();
+        
+        const foodCategoryCollection = db.collection("foodCategory");
+        const foodCategoryData = await foodCategoryCollection.find({}).toArray();
+        
+        global.food_items = foodItemsData;
+        global.foodCategory = foodCategoryData;
+
+        console.log("Data loaded successfully");
+    } catch (err) {
+        console.error("Error loading data:", err);
+    }
+};
+
+// Connect to the database and load data
 const mongoDB = async () => {
-    await mongoose.connect(mongoURI, { useNewUrlParser: true }, (err, result) => {
-        if (err) console.log("...", err)
-        else {
-            console.log('Connected');
-            const fetched_data = mongoose.connection.db.collection("food_items");
-            fetched_data.find({}).toArray(async function (err, data) {
-                const footCategory = await mongoose.connection.db.collection("foodCategory");
-                footCategory.find({}).toArray(function (err, catData) {
-                    if (err) console.log(err)
-                    else {
-                        global.food_items = data;
-                        global.foodCategory = catData;
-                    }
-                })
-                // if (err) console.log(err)
-                // else {
-                //     global.food_items = data;
+    try {
+        await mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log('Connected to MongoDB');
 
-                // }
+        await loadData();
+    } catch (err) {
+        console.error("Error connecting to MongoDB:", err);
+    }
+};
 
-            })
-        }
-    })
-}
-
-module.exports = mongoDB
-
-
-
+module.exports = mongoDB;
